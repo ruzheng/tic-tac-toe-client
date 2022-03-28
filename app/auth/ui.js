@@ -19,10 +19,9 @@ const onSignInSuccess = function (response) {
   // reset all form
   $('form').trigger('reset')
 
-  console.log(response)
-
   // store data from the response in my store object
   store.user = response.user
+  console.log(store.user._id)
 }
 
 const onSignInFailure = function () {
@@ -39,6 +38,32 @@ const onSignOutSuccess = function () {
 const onSignOutFailure = function () {
   $('#auth-display').html('<p>Error while signing out</p>')
 }
+
+const createGameSuccess = function (response) {
+  $('#auth-display').html('<p>Game Created!</p>')
+  console.log('You create game')
+  store.game = response.game
+  store.gameCells = response.game.cells
+  console.log(response.game)
+  console.log(response.game.cells)
+}
+
+const createGameFailure = function () {
+  console.log('Fail to create game')
+}
+
+const onUpdateGameSuccess = function (response) {
+  console.log(response + 'Game Updated')
+  store.gameId = response.game.id
+  store.gameCells = response.game.cells
+}
+
+const onUpdateGameFailure = function () {
+  console.log('update fail')
+  $('#game-result').html('<p>Update Fail</p>')
+}
+
+
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
@@ -47,5 +72,9 @@ module.exports = {
   // onChangePwSuccess,
   // onChangePwFailure,
   onSignOutSuccess,
-  onSignOutFailure
+  onSignOutFailure,
+  createGameSuccess,
+  createGameFailure,
+  onUpdateGameSuccess,
+  onUpdateGameFailure
 }
