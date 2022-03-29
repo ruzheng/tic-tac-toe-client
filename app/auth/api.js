@@ -1,7 +1,7 @@
 // production: 'https://tic-tac-toe-api-production.herokuapp.com',
 // development: 'https://tic-tac-toe-api-development.herokuapp.com'
 
-// const config = require('../config.js')
+const config = require('../config.js')
 const store = require('../store.js')
 
 // url: config.apiUrl + '/game'
@@ -10,7 +10,7 @@ const store = require('../store.js')
 const signUp = function (data) {
   return $.ajax({
     method: 'POST',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/sign-up',
+    url: config.apiUrl + '/sign-up',
     data // same as data: data
   })
 }
@@ -18,7 +18,7 @@ const signUp = function (data) {
 const signIn = function (data) {
   return $.ajax({
     method: 'POST',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/sign-in',
+    url: config.apiUrl + '/sign-in',
     data // same as data: data
   })
 }
@@ -26,7 +26,7 @@ const signIn = function (data) {
 const signOut = function () {
   return $.ajax({
     method: 'DELETE',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/sign-out',
+    url: config.apiUrl + '/sign-out',
 
     headers: {
       Authorization: 'Bearer ' + store.user.token
@@ -38,7 +38,7 @@ const createGame = function (data) {
   console.log(createGame)
   return $.ajax({
     method: 'POST',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/games',
+    url: config.apiUrl + '/games',
     headers: {
       Authorization: 'Bearer ' + store.user.token
     },
@@ -61,7 +61,7 @@ const createGame = function (data) {
 const playerMove = function (index, value, gameOver) { // parameter index value gameover
   return $.ajax({
     method: 'PATCH',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/games/' + store.game._id,
+    url: config.apiUrl + '/games/' + store.game._id,
 
     headers: {
       Authorization: 'Bearer ' + store.user.token

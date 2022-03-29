@@ -38,7 +38,7 @@ const onCreateGame = function (event) {
   authApi
     .createGame()
     .then((response) => authUi.createGameSuccess(response))
-    .catch(() => authUi.onCreateGameFailure())
+    .catch(() => authUi.createGameFailure())
   tieCounter = 0
   $('.box').on('click', playerClicks)
 }

@@ -44,8 +44,10 @@ h3 {
 }
 #game-result {
     font-size: 36px;
+    font-weight: bold;
     display: flex;
     justify-content: center;
+    margin: 5px;
 }
 #auth-display {
     font-size: 18px;

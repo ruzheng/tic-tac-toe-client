@@ -14,8 +14,7 @@ const onSignUpFailure = function () {
 }
 
 const onSignInSuccess = function (response) {
-  $('#auth-display').html('<p>Welcome,</p>' +
-  '<p> click Create Game to start playing!</p>')
+  $('#auth-display').html('<p>Click Create Game to start playing, Restart Game to play again, or Sign Out to quit</p>')
 
   // reset all form
   $('form').trigger('reset')

@@ -2,11 +2,17 @@
 
 This game allows players to create and login into the application to play a game of tic tac toe with two players. After the game is finish, player are prompted to start new game or exit/sign off.
 
-## Important Links
- - place holder
+## Deployment Links
+ - [Deployment](https://ruzheng.github.io/tic-tac-toe-client/)
 
 ## Planning
-
+- Set up create account, sign in, sign out
+- Set up grid design in html and css
+- Create clickable boxes
+- Patch game information as player clicks on grid
+- Freeze grid and clear grid
+- Set up winning condition logic
+    
 ### User Stories
 
 - As a user, I want to be able to sign and start playing the game
