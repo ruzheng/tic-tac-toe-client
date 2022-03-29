@@ -14,10 +14,16 @@ const onSignUpFailure = function () {
 }
 
 const onSignInSuccess = function (response) {
-  $('#auth-display').html('<p>Welcome!</p>')
+  $('#auth-display').html('<p>Welcome,</p>' +
+  '<p> click Create Game to start playing!</p>')
 
   // reset all form
   $('form').trigger('reset')
+  const onGameButton = `
+  <button id="create-game-button">Create Game</button>
+  <button id="new-game-button" type="reset">Restart Game</button>
+  `
+  $('#create-new-game').html(onGameButton)
 
   // store data from the response in my store object
   store.user = response.user
@@ -33,6 +39,8 @@ const onSignOutSuccess = function () {
   $('#auth-display').html('<p>Goodbye!</p>')
 
   $('form').trigger('reset')
+  $('#create-new-game').html('')
+  $('#game-result').html('')
 }
 
 const onSignOutFailure = function () {
@@ -43,9 +51,6 @@ const createGameSuccess = function (response) {
   $('#auth-display').html('<p>Game Created!</p>')
   console.log('You create game')
   store.game = response.game
-  store.gameCells = response.game.cells
-  console.log(response.game)
-  console.log(response.game.cells)
 }
 
 const createGameFailure = function () {
@@ -53,9 +58,9 @@ const createGameFailure = function () {
 }
 
 const onUpdateGameSuccess = function (response) {
-  console.log(response + 'Game Updated')
-  store.gameId = response.game.id
-  store.gameCells = response.game.cells
+  console.log('Game Updated')
+  store.game.cells = response.game.cells
+  console.log(store.game)
 }
 
 const onUpdateGameFailure = function () {
@@ -63,14 +68,11 @@ const onUpdateGameFailure = function () {
   $('#game-result').html('<p>Update Fail</p>')
 }
 
-
 module.exports = {
   onSignUpSuccess,
   onSignUpFailure,
   onSignInSuccess,
   onSignInFailure,
-  // onChangePwSuccess,
-  // onChangePwFailure,
   onSignOutSuccess,
   onSignOutFailure,
   createGameSuccess,

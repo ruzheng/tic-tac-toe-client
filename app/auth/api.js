@@ -1,4 +1,10 @@
+// production: 'https://tic-tac-toe-api-production.herokuapp.com',
+// development: 'https://tic-tac-toe-api-development.herokuapp.com'
+
+// const config = require('../config.js')
 const store = require('../store.js')
+
+// url: config.apiUrl + '/game'
 
 // code here
 const signUp = function (data) {
@@ -55,7 +61,7 @@ const createGame = function (data) {
 const playerMove = function (index, value, gameOver) { // parameter index value gameover
   return $.ajax({
     method: 'PATCH',
-    url: 'https://tic-tac-toe-api-development.herokuapp.com/games/' + store.data._id,
+    url: 'https://tic-tac-toe-api-development.herokuapp.com/games/' + store.game._id,
 
     headers: {
       Authorization: 'Bearer ' + store.user.token

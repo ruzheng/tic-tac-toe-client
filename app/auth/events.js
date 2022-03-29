@@ -6,8 +6,10 @@ const authApi = require('./api.js')
 const authUi = require('./ui.js')
 
 // code starts
-// let currentPlayer = playerX
-// const gameBoard = ['', '', '', '', '', '', '', '', '']
+let gameArr = ['', '', '', '', '', '', '', '', '']
+let tieCounter = 0
+let currentPlayer = 'x'
+const gameOver = false
 
 const onSignUp = function (event) {
   event.preventDefault()
@@ -28,79 +30,103 @@ const onSignIn = function (event) {
   authApi
     .signIn(data)
     .then((response) => authUi.onSignInSuccess(response))
-    console.log(store.user)
+  console.log(store.user)
 }
 
 const onCreateGame = function (event) {
+  console.log('game create')
   authApi
     .createGame()
     .then((response) => authUi.createGameSuccess(response))
-    .catch(() => authUi.onSignInFailure())
-  $('.box').on('click', runGame)
+    .catch(() => authUi.onCreateGameFailure())
+  tieCounter = 0
+  $('.box').on('click', playerClicks)
 }
 const onSignOut = function () {
+  gameArr = store.game.cells
+  currentPlayer = 'x'
+  $('.box').text('')
   authApi
     .signOut()
     .then(() => authUi.onSignOutSuccess())
     .catch(() => authUi.onSignUpFailure())
 }
 
-let clicked = false
-const runGame = function (event) {
+const playerClicks = function (event) {
   const gameIndex = event.target.getAttribute('data-cell-index')
-  // console.log(boxIndex)
-  console.log('here')
-  authApi.playerMove(gameIndex, clicked, gameOver)
-  //   gameBoard[event.target.id] = currentPlayer
+  console.log(gameArr[gameIndex])
 
-  //   if (($('.box.data-cell-index[0]') && $('.box.data-cell-index[0]') && 3 || 4 && 5 && 6 || 7 && 8 && 9 || 1 && 4 && 7 || 2 && 5 && 8 || 3 && 6 && 9 || 1 && 5 && 9 || 3 && 5 && 7).hasClass('x')) {
-  //     $('#game-result').html('<p>X wins!</p>')
-  //   } else if ((1 && 2 && 3 || 4 && 5 && 6 || 7 && 8 && 9 || 1 && 4 && 7 || 2 && 5 && 8 || 3 && 6 && 9 || 1 && 5 && 9 || 3 && 5 && 7).hasClass('o')) {
-  //     $('#game-result').html('<p>O wins!</p>')
-  //   }
+  authApi
+    .playerMove(gameIndex, currentPlayer, gameOver)
+    .then((response) => authUi.onUpdateGameSuccess(response))
+    .then(() => gameResult())
+    .then(() => {
+      tieCounter += 1
+    })
+    .then(() => {
+      if (currentPlayer === 'x') {
+        $(this).text('X').unbind()
+        // $(this).addClass('x')
+        // store.game.cells
+        currentPlayer = 'o'
+        // console.log(gameArr[gameIndex])
+      } else {
+        $(this).text('O').unbind()
+        // $(this).addClass('o')
+        currentPlayer = 'x'
+        // store.game.cells = 'o'
+        // console.log(store.game.cells)
+      }
 
-  if (!clicked) {
-    $(this).text('X').unbind()
-    $(this).addClass('x')
-
-    clicked = true
-    // store.game[gameIndex] = 'X'
-    // console.log(store.game)
-  } else {
-    $(this).text('O').unbind()
-    $(this).addClass('o')
-
-    clicked = false
-    // store.game[gameIndex] = 'O'
-    // console.log(store.game)
-  }
+      console.log(store.game)
+      console.log(tieCounter)
+    })
 }
 
-// let won = false
-// const checkPlayerWon = function (event) {
-//   if ($('.box').hasClass('x').length === 3) {
-//      $('#auth-display').html('<p>X wins!</p>')
-//   } else if ($('.box').hasClass('o').length === 3) {
-//     $('#auth-display').html('<p>O wins!</p>')
-//   }
-// }
-
-const restart = function (event) {
+const gameResult = function () {
+  console.log(currentPlayer)
+  if (((store.game.cells[0] === currentPlayer) && (store.game.cells[1] === currentPlayer) && (store.game.cells[2] === currentPlayer)) ||
+  ((store.game.cells[3] === currentPlayer) && (store.game.cells[4] === currentPlayer) && (store.game.cells[5] === currentPlayer)) ||
+  ((store.game.cells[6] === currentPlayer) && (store.game.cells[7] === currentPlayer) && (store.game.cells[8] === currentPlayer)) ||
+  ((store.game.cells[0] === currentPlayer) && (store.game.cells[3] === currentPlayer) && (store.game.cells[6] === currentPlayer)) ||
+  ((store.game.cells[1] === currentPlayer) && (store.game.cells[4] === currentPlayer) && (store.game.cells[7] === currentPlayer)) ||
+  ((store.game.cells[2] === currentPlayer) && (store.game.cells[5] === currentPlayer) && (store.game.cells[8] === currentPlayer)) ||
+  ((store.game.cells[0] === currentPlayer) && (store.game.cells[4] === currentPlayer) && (store.game.cells[8] === currentPlayer)) ||
+  ((store.game.cells[2] === currentPlayer) && (store.game.cells[4] === currentPlayer) && (store.game.cells[6] === currentPlayer))) {
+    console.log(currentPlayer + ' wins!')
+    store.game.over = true
+    tieCounter = 0
+    $('#game-result').html(currentPlayer + ' wins!')
+    $('.box').unbind()
+    console.log(store.game.over)
+    return gameOver
+  } else if (tieCounter === 8) {
+    $('#game-result').html('It is a tie!')
+    tieCounter = 0
+    store.game.over = true
+    return gameOver
+  }
+}
+const restart = function () {
   console.log('clicked')
   $('.box').text('')
-  $('.x').bind('click', runGame)
-  $('.o').bind('click', runGame)
-  $('.box').removeClass('x')
-  $('.box').removeClass('o')
-  clicked = false
+  $('#game-result').html('')
+  $('.box').on('click', playerClicks)
+  currentPlayer = 'x'
+  store.game.over = false
+  authApi
+    .createGame()
+    .then((response) => authUi.createGameSuccess(response))
+    .then(() => { gameArr = store.game.cells })
+    .catch(() => authUi.onCreateGameFailure())
+  tieCounter = 0
 }
 module.exports = {
   onSignUp,
   onSignIn,
-  // onChangePw,
   onSignOut,
-  runGame,
+  playerClicks,
   restart,
   onCreateGame
-//   checkPlayerWon
+
 }

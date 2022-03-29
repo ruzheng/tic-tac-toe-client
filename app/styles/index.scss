@@ -5,13 +5,53 @@ $body-bg-color: gray;
 $box-bg-color: white;
 $box-border-color: black;
 $alt-bg-color: coral;
+html, body {
+    height: 100%;
+}
 
+html {
+    display: table;
+    margin: auto;
+}
 #game-title {
     display: flex;
     justify-content: center;
 
 }
 
+h1 {
+    display: flex;
+    justify-content: center;
+}
+h3 {
+    display: flex;
+    justify-content: left;
+    padding: 10px
+}
+
+#sign-up-form {
+    display: flex;
+    padding: 10px;
+}
+
+#sign-in-form {
+    display: flex;
+    padding: 10px;
+}
+#sign-out-form {
+    display: flex;
+    padding: 10px;
+}
+#game-result {
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+}
+#auth-display {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
 .box {
   align-items: center;
   background-color: $box-bg-color;
