@@ -1,0 +1,68 @@
+@import '~bootstrap/scss/bootstrap';
+
+$font-family: 'Playfair Display', serif;
+$body-bg-color: gray;
+$box-bg-color: white;
+$box-border-color: black;
+$alt-bg-color: coral;
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+#game-title {
+    display: flex;
+    justify-content: center;
+
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+}
+h3 {
+    display: flex;
+    justify-content: left;
+    padding: 10px
+}
+
+#sign-up-form {
+    display: flex;
+    padding: 10px;
+}
+
+#sign-in-form {
+    display: flex;
+    padding: 10px;
+}
+#sign-out-form {
+    display: flex;
+    padding: 10px;
+}
+#game-result {
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+#auth-display {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
+.box {
+  align-items: center;
+  background-color: $box-bg-color;
+  border: 1px solid $box-border-color;
+  color: $box-border-color;
+  display: flex;
+  font-family: $font-family;
+  height: 190px;
+  justify-content: center;
+  
+
+}
