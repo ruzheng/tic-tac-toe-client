@@ -14,12 +14,9 @@ const onSignUpFailure = function () {
 }
 
 const onSignInSuccess = function (response) {
-  $('#auth-display').html('<p>Click Create Game to start playing, Restart Game to play again, or Sign Out to quit</p>')
-
-  // reset all form
+// reset all form
   $('form').trigger('reset')
   const onGameButton = `
-  <button id="create-game-button">Create Game</button>
   <button id="new-game-button" type="reset">Restart Game</button>
   `
   $('#create-new-game').html(onGameButton)
@@ -47,7 +44,9 @@ const onSignOutFailure = function () {
 }
 
 const createGameSuccess = function (response) {
-  $('#auth-display').html('<p>Game Created!</p>')
+  $('#auth-display').html(
+    '<p>Game created! Click Restart Game to play again, or Sign Out to quit</p>'
+  )
   console.log('You create game')
   store.game = response.game
 }

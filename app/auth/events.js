@@ -26,10 +26,12 @@ const onSignIn = function (event) {
   console.log('Here')
 
   const data = getFormFields(event.target)
-
   authApi
     .signIn(data)
     .then((response) => authUi.onSignInSuccess(response))
+    .then(() => { $('#game-board').show() })
+    .then(onCreateGame)
+    .catch(() => authUi.onSignInFailure)
   console.log(store.user)
 }
 
@@ -43,12 +45,18 @@ const onCreateGame = function (event) {
   $('.box').on('click', playerClicks)
 }
 const onSignOut = function () {
-  gameArr = store.game.cells
-  currentPlayer = 'x'
-  $('.box').text('')
+//   gameArr = store.game.cells
+//   currentPlayer = 'x'
+
   authApi
     .signOut()
     .then(() => authUi.onSignOutSuccess())
+    .then(() => {
+      gameArr = store.game.cells
+      currentPlayer = 'x'
+      $('.box').text('')
+    })
+    .then(() => { $('#game-board').hide() })
     .catch(() => authUi.onSignUpFailure())
 }
 
